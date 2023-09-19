@@ -5,21 +5,15 @@ from .models import Product, Category, Tag
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     #specifies which fields should be displayed in the admin list view for each model.
-    list_display = ['name','price','date_added']
+    list_display = ['title','price','date_added']
     # adds filters in the right sidebar to filter records by specific fields
     list_filter = ['date_added']
     #
     search_fields = ['name','description']
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name','description']
-    search_fields = ['name',]
+admin.site.register(Category)
+admin.site.register(Tag)
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = ['name',]
-    search_fields = ['name',]
 
 
 
