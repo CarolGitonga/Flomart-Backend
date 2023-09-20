@@ -12,7 +12,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name','description']
 
 admin.site.register(Category)
-admin.site.register(Tag)
+#admin.site.register(Tag)
 admin.site.register(Review)
 
 
