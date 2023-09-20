@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
     'cloudinary',
+    'rest_framework',
+    'django_filters',
     
     
 ]
