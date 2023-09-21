@@ -4,7 +4,7 @@ from shop.models import Category, Product, Review
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['title','description','category','image','price','color','date_added','featured', 'id']
+        fields = ['id','title','description','category','image','price','color','date_added','featured']
 
 #class TagSerializer(serializers.ModelSerializer):
     #class Meta:
