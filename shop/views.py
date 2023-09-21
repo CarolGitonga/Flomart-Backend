@@ -5,6 +5,8 @@ from shop.models import Product, Category,  Review
 from .serializers import ProductSerializer, CategorySerializer,  ReviewSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.pagination import PageNumberPagination
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -16,6 +18,7 @@ class ProductViewSet(ModelViewSet):
     filterset_class = ProductFilter
     search_fields = ['title', 'description']
     ordering_fields = ['price']
+    pagination_class = PageNumberPagination
 
 class CategoryViewSet(ModelViewSet):
     queryset = products = Category.objects.all()
