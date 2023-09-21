@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Category(models.Model):
-    id=models.UUIDField(default=uuid.uuid4,unique=True, primary_key=True, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     category = models.CharField(max_length=100, blank=True, null=True)
     
 
@@ -30,7 +30,7 @@ class Product(models.Model):
     #stock_quantity = models.PositiveIntegerField()
     date_added = models.DateField()
     featured = models.BooleanField(default=False)
-    id=models.UUIDField(default=uuid.uuid4,unique=True, primary_key=True, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
 
 
     def __str__(self):
