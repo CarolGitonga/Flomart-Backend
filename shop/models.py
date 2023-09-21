@@ -5,13 +5,13 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Category(models.Model):
-    uuid = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    category = models.CharField(max_length=100, blank=True, null=True)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
     
 
 
     def __str__(self):
-        return self.category
+        return self.title
 
 #class Tag(models.Model):
     #name = models.CharField(max_length=200)
@@ -30,7 +30,8 @@ class Product(models.Model):
     #stock_quantity = models.PositiveIntegerField()
     date_added = models.DateField()
     featured = models.BooleanField(default=False)
-    uuid = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
+
 
 
     def __str__(self):
