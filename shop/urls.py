@@ -11,7 +11,10 @@ router.register('categories', views.CategoryViewSet)
 
 
 product_router = routers.NestedDefaultRouter(router, 'products',lookup='product')#child router)
-product_router.register('reviews', views.ReviewViewSet, basename='product_reviews')
+product_router.register("reviews", views.ReviewViewSet, basename="product-reviews")
+
+
+
 urlpatterns=[
     path('', views.index, name='index'),
     path('', include(router.urls)),
