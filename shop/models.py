@@ -38,14 +38,13 @@ class Product(models.Model):
         return self.title
     
 class Review(models.Model):
-    title = models.CharField(max_length=200,blank=True, null=True)
+    name = models.CharField(max_length=100)  
     description = models.TextField(blank=True, null=True)
     rating = models.IntegerField(default=0, validators=[MaxValueValidator(5),MinValueValidator(1)])
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='post_comment')
-    purchased = models.BooleanField(default=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.product.title
+        return self.product.description
 
     
