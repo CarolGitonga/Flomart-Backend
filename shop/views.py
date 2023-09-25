@@ -1,4 +1,4 @@
-from django.shortcuts import render
+
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from shop.filters import ProductFilter
 from shop.models import Product, Category, Review
@@ -7,13 +7,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 
-# Create your views here.
-def index(request):
-    return render(request, 'index.html')
-
+# Create your views here
 class ProductViewSet(ModelViewSet):
     queryset = products = Product.objects.all()
     serializer_class = ProductSerializer
+
     filter_backends =[DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
     search_fields = ['title', 'description']
@@ -21,7 +19,7 @@ class ProductViewSet(ModelViewSet):
     pagination_class = PageNumberPagination
 
 class CategoryViewSet(ModelViewSet):
-    queryset = products = Category.objects.all()
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 #class TagViewSet(ModelViewSet):
@@ -29,9 +27,8 @@ class CategoryViewSet(ModelViewSet):
    # serializer_class = TagSerializer
 
 class ReviewViewSet(ModelViewSet):
-    #queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-
+    
     def get_queryset(self):
          return Review.objects.filter(product_id=self.kwargs["product_pk"])
     

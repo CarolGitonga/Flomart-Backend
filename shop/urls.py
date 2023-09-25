@@ -5,18 +5,15 @@ from rest_framework_nested import routers
 
 router = routers.DefaultRouter() #parent router
 
-router.register('products', views.ProductViewSet)
-router.register('categories', views.CategoryViewSet)
-#router.register('tags', views.TagViewSet)
-
-
-product_router = routers.NestedDefaultRouter(router, 'products',lookup='product')#child router)
+router.register("products", views.ProductViewSet)
+router.register("categories", views.CategoryViewSet)
+product_router = routers.NestedDefaultRouter(router, "products", lookup="product")
 product_router.register("reviews", views.ReviewViewSet, basename="product-reviews")
 
+urlpatterns = router.urls
 
 
 urlpatterns=[
-    path('', views.index, name='index'),
     path('', include(router.urls)),
     path('', include(product_router.urls))
 ]
