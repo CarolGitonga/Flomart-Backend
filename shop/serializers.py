@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from shop.models import Category, Product, Review
+from shop.models import Cart, Category, Product, Review
 
 
 
@@ -32,4 +32,9 @@ class ReviewSerializer(serializers.ModelSerializer):
        # validated_data.pop('product', None)  # Remove 'product' from validated_data
        # return Review.objects.create(product_id=product_id, **validated_data)
         
+class Cartserializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
+    class Meta:
+        model = Cart
+        fields = ['id']
 

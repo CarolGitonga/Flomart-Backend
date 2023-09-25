@@ -1,11 +1,12 @@
 
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from shop.filters import ProductFilter
-from shop.models import Product, Category, Review
-from .serializers import ProductSerializer, CategorySerializer, ReviewSerializer
+from shop.models import Cart, Product, Category, Review
+from .serializers import Cartserializer, ProductSerializer, CategorySerializer, ReviewSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.mixins import CreateModelMixin
 
 # Create your views here
 class ProductViewSet(ModelViewSet):
@@ -37,3 +38,6 @@ class ReviewViewSet(ModelViewSet):
 8
 
 
+class CartViewset(CreateModelMixin, GenericViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = Cartserializer
