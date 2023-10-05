@@ -74,18 +74,37 @@ class AddCartItemSerializer(serializers.ModelSerializer):
         model = Cartitems
         fields = ['id','product_id', 'quantity']
         
+class UpdateCartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cartitems
+        fields = ['quantity']
 
 
 
 class Cartserializer(serializers.ModelSerializer):
+    """
+    Serializer class for serializing and deserializing instances of the Cart model.
+    Includes a nested serializer for the CartItem model and calculates the total price of all items in the cart.
+    """
+
     id = serializers.UUIDField(read_only=True)
-    items = CartItemSerializer(many=True, read_only= True)
+    items = CartItemSerializer(many=True, read_only=True)
     grand_total = serializers.SerializerMethodField(method_name='main_total')
+
     class Meta:
         model = Cart
         fields = ['id', 'items', 'grand_total']
 
-    def main_total(self, cart:Cart):
+    def main_total(self, cart: Cart):
+        """
+        Calculates the total price of all items in the cart.
+
+        Parameters:
+        - cart: The Cart instance for which to calculate the total price.
+
+        Returns:
+        - The total price of all items in the cart.
+        """
         items = cart.items.all()
         total = sum([item.quantity * item.product.price for item in items])
         return total
