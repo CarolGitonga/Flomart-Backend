@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from shop.models import Cart, Cartitems, Category, Product, Review
+from shop.models import Cart, Cartitems, Category, Order, OrderItem, Product, Review
 
 
 
@@ -26,11 +26,6 @@ class ReviewSerializer(serializers.ModelSerializer):
         product_id = self.context["product_id"]
         return Review.objects.create(product_id = product_id,  **validated_data)
     
-   
-    #def create(self, validated_data):
-       # product_id = self.context["product_id"]
-       # validated_data.pop('product', None)  # Remove 'product' from validated_data
-       # return Review.objects.create(product_id=product_id, **validated_data)
 class SimpleProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
@@ -55,7 +50,6 @@ class AddCartItemSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('There is no product associated with the given ID')
         return value
         
-
     def save(self, **kwargs):
         cart_id = self.context['cart_id']
         product_id = self.validated_data['product_id']
@@ -82,11 +76,6 @@ class UpdateCartItemSerializer(serializers.ModelSerializer):
 
 
 class Cartserializer(serializers.ModelSerializer):
-    """
-    Serializer class for serializing and deserializing instances of the Cart model.
-    Includes a nested serializer for the CartItem model and calculates the total price of all items in the cart.
-    """
-
     id = serializers.UUIDField(read_only=True)
     items = CartItemSerializer(many=True, read_only=True)
     grand_total = serializers.SerializerMethodField(method_name='main_total')
@@ -96,18 +85,21 @@ class Cartserializer(serializers.ModelSerializer):
         fields = ['id', 'items', 'grand_total']
 
     def main_total(self, cart: Cart):
-        """
-        Calculates the total price of all items in the cart.
-
-        Parameters:
-        - cart: The Cart instance for which to calculate the total price.
-
-        Returns:
-        - The total price of all items in the cart.
-        """
         items = cart.items.all()
         total = sum([item.quantity * item.product.price for item in items])
         return total
+    
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = SimpleProductSerializer()
+    class Meta:
+        model = OrderItem
+        fields = ['id','product','quantity']
 
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = Order
+        fields = ['id','placed_at','pending_status','owner','items']
+        
 
 
