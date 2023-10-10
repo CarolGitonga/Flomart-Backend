@@ -99,5 +99,5 @@ class ProfileViewSet(ModelViewSet):
         bio = request.data['bio']
         picture = request.data['picture']
         Profile.objects.filter(name = name, bio= bio, picture= picture)
-        return Response('Profile created successfully', status=status.TTP_200_OK)
+        return Response('Profile created successfully', status=status.HTTP_200_OK)
 
