@@ -2,7 +2,7 @@
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from shop.filters import ProductFilter
 from shop.models import Cart, Cartitems, Order, Product, Category, Review
-from .serializers import AddCartItemSerializer, CartItemSerializer, Cartserializer, CreateOrderSerializer, OrderSerializer, ProductSerializer, CategorySerializer, ReviewSerializer, UpdateCartItemSerializer
+from .serializers import AddCartItemSerializer, CartItemSerializer, Cartserializer, CreateOrderSerializer, OrderSerializer, ProductSerializer, CategorySerializer, ReviewSerializer, UpdateCartItemSerializer, UpdateOrderSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
@@ -80,6 +80,8 @@ class OrderViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.request.method =='POST':
             return CreateOrderSerializer
+        elif self.request.method =='PATCH':
+            return UpdateOrderSerializer
         return OrderSerializer
     
     def get_queryset(self):
@@ -88,5 +90,4 @@ class OrderViewSet(ModelViewSet):
             return Order.objects.all()
         return Order.objects.filter(owner=user)
     
-    def get_serializer_context(self):
-        return {'user_id':self.request.user.id}
+   
