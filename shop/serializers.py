@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.db import transaction
-from shop.models import Cart, Cartitems, Category, Order, OrderItem, Product, Review
+from shop.models import Cart, Cartitems, Category, Order, OrderItem, Product, Profile, Review
 
 
 
@@ -136,3 +136,8 @@ class UpdateOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['pending_status']
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['id','name','bio','picture']
