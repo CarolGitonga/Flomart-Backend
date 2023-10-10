@@ -1,14 +1,16 @@
 
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from shop.filters import ProductFilter
-from shop.models import Cart, Cartitems, Order, Product, Category, Review
-from .serializers import AddCartItemSerializer, CartItemSerializer, Cartserializer, CreateOrderSerializer, OrderSerializer, ProductSerializer, CategorySerializer, ReviewSerializer, UpdateCartItemSerializer, UpdateOrderSerializer
+from shop.models import Cart, Cartitems, Order, Product, Category, Profile, Review
+from .serializers import AddCartItemSerializer, CartItemSerializer, Cartserializer, CreateOrderSerializer, OrderSerializer, ProductSerializer, CategorySerializer, ProfileSerializer, ReviewSerializer, UpdateCartItemSerializer, UpdateOrderSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
 # Create your views here
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
@@ -24,9 +26,6 @@ class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-#class TagViewSet(ModelViewSet):
-    #queryset = products = Tag.objects.all()
-   # serializer_class = TagSerializer
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
@@ -90,4 +89,15 @@ class OrderViewSet(ModelViewSet):
             return Order.objects.all()
         return Order.objects.filter(owner=user)
     
-   
+class ProfileViewSet(ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+    def create(self, request, *args, **kwargs):
+        name = request.data['name']
+        bio = request.data['bio']
+        picture = request.data['picture']
+        Profile.objects.filter(name = name, bio= bio, picture= picture)
+        return Response('Profile created successfully', status=status.TTP_200_OK)
+
