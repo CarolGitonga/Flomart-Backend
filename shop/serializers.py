@@ -132,4 +132,7 @@ class CreateOrderSerializer(serializers.Serializer):
            return order
         
 
-
+class UpdateOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['pending_status']
