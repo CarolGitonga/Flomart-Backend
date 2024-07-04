@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'core',
     'cloudinary',
     'rest_framework',
-    'django_filters'
+    'django_filters',
     'djoser',
     
     
